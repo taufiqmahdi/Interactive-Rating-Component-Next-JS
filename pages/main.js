@@ -1,9 +1,34 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
-import { Box, Flex, Text, Button, ButtonGroup } from "@chakra-ui/react"
+import { Box, Flex, Text, Button, ButtonGroup, useControllableProp, useControllableState } from "@chakra-ui/react"
 
 function About() {
-    const [isActive, setActive] = useState(0);
+
+    const bgInactive = 'hsl(216, 12%, 54%)'
+    const bgActive = 'red'
+
+    const [isActive, setIsActive] = React.useState(bgInactive) //useControllableState(bg='hsl(216, 12%, 54%)')
+
+    const handleClick = () => {
+        // 👇️ toggle
+        // setIsActive(current => !current);
+
+        if (isActive == bgInactive) {
+            setIsActive(bgActive);
+            console.log('if')
+        } else {
+            setIsActive(bgInactive);
+            console.log('uf')
+        }
+
+        // setIsActive(bgActive);
+
+    
+        // 👇️ or set to true
+        // setIsActive(true);
+        // bg='hsl(216, 12%, 54%)'
+      };
+
 
     return (
         <>
@@ -29,7 +54,7 @@ function About() {
                         </Text>
                     </Flex>
                     <Flex align="center" justify="space-between" w='100%'>
-                        <Button display="flex" alignItems="center" justifyContent="center" borderRadius='50%' bg='hsl(216, 12%, 54%)' w='40px' h='40px'>
+                        <Button onClick={handleClick} display="flex" alignItems="center" justifyContent="center" borderRadius='50%' bg={isActive} w='40px' h='40px'>
                             1
                         </Button>
                         <Button display="flex" alignItems="center" justifyContent="center" borderRadius='50%' bg='hsl(216, 12%, 54%)' w='40px' h='40px'>
