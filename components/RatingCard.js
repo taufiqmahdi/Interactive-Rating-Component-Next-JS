@@ -1,45 +1,52 @@
-import React, { useState } from "react";
+import React from "react";
 import Head from "next/head";
 import {
-  Box,
   Flex,
   Text,
   Button,
-  ButtonGroup,
-  useControllableProp,
-  useControllableState,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  RadioGroup,
-  Stack,
-  Radio
 } from "@chakra-ui/react";
 
-const RatingCard = () => {
+const RatingCard = ({isActive, onRatingChange, onFormSubmit}) => {
   //   const bgInactive = 'hsl(216, 12%, 54%)';
   //   const bgActive = 'red';
 
-  const [isActive, setIsActive] = React.useState(null);
+  // const handleRatingChange = isActive + 1
+  // const [isSubmitted, setIsSubmitted] = useState(false)
+
+  // const [isActive, setIsActive] = React.useState(null);
   const feedbackScore = [1, 2, 3, 4, 5];
-  const chooseFeedback = (chooseIndex) => {
-    if (isActive === chooseIndex) setIsActive(null);
-    else setIsActive(chooseIndex);
-  };
-  const handleClick = () => {
-    if (isActive == bgInactive) {
-      setIsActive(bgActive);
-    } else {
-      setIsActive(bgInactive);
-    }
-  };
+  // const chooseFeedback = (chooseIndex) => {
+  //   if (isActive === chooseIndex) setIsActive(null);
+  //   else setIsActive(chooseIndex);
+  // };
+
+  // const handleClick = () => {
+  //   if (isActive == bgInactive) {
+  //     setIsActive(bgActive);
+  //   } else {
+  //     setIsActive(bgInactive);
+  //   }
+  // };
+
+  const handleChange = (index) => {
+    onRatingChange(index)
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    onFormSubmit(true)
+
+    // isSubmitted = true
+
+    // setIsSubmitted(true)
+    // rating = isActive + 1
+
+
+    // console.log(e.target.elements)
+
     const data = {
-      index: isActive + 1, //e.target.index.value,
+      index: isActive + 1 //e.target // isActive + 1, //e.target.index.value,
     };
 
     const JSONdata = JSON.stringify(data);
@@ -57,7 +64,7 @@ const RatingCard = () => {
     const response = await fetch(endpoint, options);
 
     const result = await response.json();
-    alert(`Is this your full name: ${result.data}`);
+    // alert(`Is this your full name: ${result.data}`);
   };
 
   return (
@@ -135,7 +142,7 @@ const RatingCard = () => {
                     id={item}
                     name={item}
                     required
-                    onClick={() => chooseFeedback(index)}
+                    onClick={() => handleChange(index)}
                     bg={
                       isActive === index
                         ? "hsl(214, 12%, 54%)"
@@ -143,7 +150,8 @@ const RatingCard = () => {
                     }
                     display="flex"
                     alignItems="center"
-                    justifyContent="center"
+                    justifyContent="space-between"
+                    direction='row'
                     borderRadius="50%"
                     w="40px"
                     h="40px"
